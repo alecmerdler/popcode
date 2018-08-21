@@ -32,6 +32,7 @@ import {
   saveProject,
 } from '../clients/firebase';
 import {getCurrentProject, getCurrentUserId} from '../selectors';
+import {userDismissedNotification} from '../actions/ui';
 
 export function* applicationLoaded(action) {
   if (isString(action.payload.gistId)) {
@@ -85,6 +86,7 @@ export function* importGist({payload: {gistId}}) {
 
 export function* updateProjectSource() {
   yield* saveCurrentProject();
+  yield put(userDismissedNotification('snapshot-created'));
 }
 
 export function* userAuthenticated() {

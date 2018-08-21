@@ -44,6 +44,7 @@ import {
   getCurrentUserId,
   getCurrentProject,
 } from '../../../src/selectors/index';
+import {userDismissedNotification} from '../../../src/actions';
 
 test('createProject()', (assert) => {
   let firstProjectKey;
@@ -251,6 +252,7 @@ test('updateProjectSource', (assert) => {
       currentProject,
     ).
     next().put(projectSuccessfullySaved()).
+    next().put(userDismissedNotification('snapshot-created')).
     next().isDone();
   assert.end();
 });
