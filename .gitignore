@@ -1,6 +1,5 @@
 dist
 static/compiled
-node_modules
 npm-debug.log
 bower_components
 yarn-error.log

@@ -86,7 +86,6 @@ export function* importGist({payload: {gistId}}) {
 
 export function* updateProjectSource() {
   yield* saveCurrentProject();
-  yield put(userDismissedNotification('snapshot-created'));
 }
 
 export function* userAuthenticated() {

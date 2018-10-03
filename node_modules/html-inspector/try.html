@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test Page</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+
+    <style>foo { }</style>
+
+  </head>
+  <body ondblclick="alert('foo')">
+
+    <span class="nofound" id="foo"><meta name="foobar"></span>
+    <span id="foo"><link type="imports" href="foobar.html"></span>
+
+    <style scoped>foo { }</style>
+
+    <span><h1>This is a <p>Heading!</p> shit</h1></span>
+
+    <span>
+      <ul>
+        <li>foo</li>
+      </ul>
+    </span>
+
+    <ul>
+      <span><li>Foo</li></span>
+      <li>Bar</li>
+    </ul>
+
+    <p foo="bar">This is a <title>title</title> element</p>
+
+    <em><p>emphasize!</p></em>
+
+    <script src="html-inspector.js"></script>
+    <script>
+      HTMLInspector.inspect()
+    </script>
+
+  </body>
+</html>

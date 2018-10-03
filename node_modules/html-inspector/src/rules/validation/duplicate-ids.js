@@ -1,0 +1,51 @@
+var foundIn = require("../../utils/string-matcher")
+
+module.exports = {
+
+  name: "duplicate-ids",
+
+  config: {
+    whitelist: []
+  },
+
+  func: function(listener, reporter, config) {
+
+    var elements = []
+
+    listener.on("id", function(name) {
+      // ignore whitelisted attributes
+      if (!foundIn(name, config.whitelist)) {
+        elements.push({id: name, context: this})
+      }
+    })
+
+    listener.on("afterInspect", function() {
+
+      var duplicates = []
+        , element
+        , offenders
+
+      while (element = elements.shift()) {
+        // find other elements with the same ID
+        duplicates = elements.filter(function(el) {
+          return element.id === el.id
+        })
+        // remove elements with the same ID from the elements array
+        elements = elements.filter(function(el) {
+          return element.id !== el.id
+        })
+        // report duplicates
+        if (duplicates.length) {
+          offenders = [element.context].concat(duplicates.map(function(dup) {
+            return dup.context
+          }))
+          reporter.warn(
+            "duplicate-ids",
+            "The id '" + element.id + "' appears more than once in the document.",
+            offenders
+          )
+        }
+      }
+    })
+  }
+}

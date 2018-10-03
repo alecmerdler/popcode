@@ -1,0 +1,77 @@
+#!/usr/bin/env node
+
+require('colors')
+require('shelljs/global')
+
+// set the shelljs config
+config.silent = true
+
+var fs = require('fs')
+  , path = require('path')
+  , program = require('commander')
+
+  , inspectLocation
+  , configFile
+  , basePath = path.normalize(__dirname + path.sep + '..')
+  , version = JSON.parse(fs.readFileSync(path.join(basePath, "package.json"))).version
+  , phantomRunner = basePath + path.sep + 'bin' + path.sep + 'phantom-runner.js'
+
+
+program
+  .version(version)
+  .usage('[options] <file or url>')
+  .option('-c, --config [file]', 'Configuration file (./html-inspector-config.js)', './html-inspector-config.js')
+  .parse(process.argv)
+
+if(program.args.length !== 1) {
+  program.help()
+  exit()
+}
+
+// warn is PhantomJS isn't install
+if (!which("phantomjs")) {
+  echo("PhantomJS must be installed to use the HTML Inspector CLI.".red)
+  exit(1)
+}
+
+// Try to resolve local file, otherwise assume and pass url
+var inputLocation = program.args[0]
+  , inspectLocation = fs.existsSync(path.resolve(inputLocation)) ? path.resolve(inputLocation) : inputLocation
+
+if (program.config) {
+  configFile = fs.existsSync(path.resolve(program.config))
+    ? path.resolve(program.config)
+    : ""
+}
+
+// Spawn process to run PhantomJS from CLI
+function run(cmd, args, callback) {
+  var spawn = require('child_process').spawn
+  var command = spawn(cmd, args)
+  var result = ''
+  command.stdout.on('data', function(data) {
+    result += data.toString()
+  })
+  command.on('error', function() {
+    console.log(arguments)
+  })
+  command.on('close', function(code) {
+    return callback(result)
+  })
+}
+
+run("phantomjs", [phantomRunner, basePath, inspectLocation, configFile], function(result) {
+
+  var errors
+
+  try {
+    errors = JSON.parse(result)
+  } catch(error) {
+    console.log(result + '\n')
+  }
+
+  if(errors) {
+    reporter.write(errors)
+  }
+
+})

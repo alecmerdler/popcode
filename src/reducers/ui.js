@@ -38,6 +38,7 @@ export default function ui(stateIn, action) {
       return state.set('isEditingInstructions', false);
 
     case 'UPDATE_PROJECT_SOURCE':
+      // TODO: Dismiss snapshot notification here
       return state.set('isTyping', true);
 
     case 'USER_DONE_TYPING':
