@@ -448,6 +448,7 @@ body {
 .environment__column {
   flex: 1 0 0;
   position: relative;
+  /* FIXME(alecmerdler): This prevents draggable divider when using browser zoom */
   min-width: 300px;
 }
 
