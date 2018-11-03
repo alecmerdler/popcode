@@ -23,7 +23,7 @@ export function createAceEditor(element) {
 
 export function createAceSessionWithoutWorker(language, source = '') {
   const session = ACE.createEditSession(source, null);
-  session.setUseWrapMode(true);
+  session.setUseWrapMode(false);
   session.setUseWorker(false);
   session.setMode(`ace/mode/${language}`);
   return session;

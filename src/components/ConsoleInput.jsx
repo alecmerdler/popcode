@@ -29,6 +29,8 @@ export default class ConsoleInput extends Component {
       currentInputValue,
     } = this.props;
 
+    console.log(currentInputValue);
+
     if (isTextSizeLarge !== prevIsTextSizeLarge) {
       requestAnimationFrame(() => {
         inheritFontStylesFromParentElement(this._editor);
@@ -68,7 +70,8 @@ export default class ConsoleInput extends Component {
       editor.moveCursorTo(0, 0);
       editor.setOptions({
         highlightActiveLine: false,
-        maxLines: 1,
+        // FIXME(alecmerdler): Prevents multi-line expressions in console
+        maxLines: 5,
         minLines: 1,
       });
       editor.resize();
@@ -103,6 +106,7 @@ export default class ConsoleInput extends Component {
         const submitted = action === 'insert' && lines.length === 2;
 
         if (submitted) {
+          // NOTE(alecmerdler): Called when `Enter` key is pushed
           onInput(value);
           return;
         }

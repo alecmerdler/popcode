@@ -49,6 +49,7 @@ class PreviewFrame extends React.Component {
     if (this._channel && isActive) {
       for (const [key, {expression}] of consoleEntries) {
         if (!prevConsoleEntries.has(key) && expression) {
+          // NOTE(alecmerdler): This is where the JS expression is passed to the iframe to be executed
           this._evaluateConsoleExpression(key, expression);
         }
       }

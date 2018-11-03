@@ -31,5 +31,9 @@ export default function createApplicationStore() {
     compose(applyMiddleware(sagaMiddleware)),
   );
   sagaMiddleware.run(rootSaga);
+
+  // FIXME(alecmerdler): For debugging
+  window.store = store;
+
   return store;
 }

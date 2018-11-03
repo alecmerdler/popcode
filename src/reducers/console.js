@@ -1,4 +1,5 @@
 import inRange from 'lodash-es/inRange';
+import {parse, tokenize} from 'esprima';
 
 import {ConsoleState, ConsoleEntry, ConsoleError} from '../records';
 
@@ -62,6 +63,10 @@ export default function console(stateIn, {type, payload, meta}) {
         ),
       );
     case 'EVALUATE_CONSOLE_ENTRY':
+      // TODO(alecmerdler): Use Esprima to determine if we are in a multi-line code block, then skip evaluation and add newline
+      if (payload.trim(' ') !== '' && tokenize(payload).pop().type === 'Punctuator') {
+        return state.set('currentInputValue', payload);
+      }
       return payload.trim(' ') === '' ? state : state.setIn(
         ['history', meta.key],
         new ConsoleEntry({expression: payload}),

@@ -627,7 +627,8 @@ body {
 }
 
 .console__input {
-  height: 1em;
+  /* FIXME(alecmerdler): Prevents multi-line console statements from being visible */
+  /* height: 1em; */
 }
 
 .console__entry {

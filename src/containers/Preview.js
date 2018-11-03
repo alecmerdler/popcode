@@ -52,6 +52,7 @@ function mapDispatchToProps(dispatch) {
   const dispatchConsoleLog = generateConsoleLogDispatcher(dispatch, 1000);
   return {
     onConsoleError(key, name, message, compiledProjectKey) {
+      // FIXME(alecmerdler): How is this being called if the console doesn't use this component?
       dispatch(consoleErrorProduced(key, name, message, compiledProjectKey));
     },
 
